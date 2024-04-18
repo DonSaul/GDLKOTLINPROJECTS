@@ -99,7 +99,10 @@ fun AddNoteScreen(navController: NavController, noteViewModel: NoteViewModel) {
             OutlinedTextField(
                 value = state.content,
                 onValueChange = { noteViewModel.onValueChange("content",it) },
-                label = { Text(text = "Note")},
+                label = { Text(text = "${state.content.length}/2000")},
+                placeholder = {
+                    Text(text = "Note")
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()

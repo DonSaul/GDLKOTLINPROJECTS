@@ -40,7 +40,11 @@ class NoteViewModel:ViewModel(){
                     state = state.copy(description = value)
                 }
             }
-            "content" ->  state = state.copy(content = value)
+            "content" -> {
+                if(value.length<=2000){
+                    state = state.copy(content = value)
+                }
+            }
         }
     }
 
