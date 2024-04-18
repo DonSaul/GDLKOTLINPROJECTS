@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TopAppBar
 
 
@@ -90,30 +91,34 @@ fun CreateNoteScreen(
                 Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
+                    .padding(10.dp, 10.dp)
             ) {
                 Text(text = "Title note")
-                TextField(
+                OutlinedTextField(
                     value = currentTitle.value,
                     modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
                         cursorColor = Color.Black,
-                        focusedLabelColor = Color.Black,
+                        focusedBorderColor = Color.Black, // Color del borde cuando está enfocado
+                        unfocusedBorderColor = Color.Gray, // Color del borde cuando no está enfocado
+                        containerColor = Color(0xFFF2F2F2) // Gris muy claro para el fondo
                     ),
                     onValueChange = { value ->
                         currentTitle.value = value
                         saveButtonState.value =
-                            currentTitle.value != "" && currentNote.value != ""
+                            currentTitle.value.isNotEmpty() && currentNote.value.isNotEmpty()
                     },
                     label = { Text(text = "Title") }
                 )
                 Spacer(modifier = Modifier.padding(12.dp))
                 Text(text = "Body note")
-
-                TextField(
+                OutlinedTextField(
                     value = currentNote.value,
-                    colors = TextFieldDefaults.colors(
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
                         cursorColor = Color.Black,
-                        focusedLabelColor = Color.Black,
+                        focusedBorderColor = Color.Black,
+                        unfocusedBorderColor = Color.Gray,
+                        containerColor = Color(0xFFF2F2F2)
                     ),
                     modifier = Modifier
                         .fillMaxHeight(0.6f)
@@ -121,7 +126,7 @@ fun CreateNoteScreen(
                     onValueChange = { value ->
                         currentNote.value = value
                         saveButtonState.value =
-                            currentTitle.value != "" && currentNote.value != ""
+                            currentTitle.value.isNotEmpty() && currentNote.value.isNotEmpty()
                     },
                     label = { Text(text = "Body") }
                 )

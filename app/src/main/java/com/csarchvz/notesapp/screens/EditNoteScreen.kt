@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,7 +35,6 @@ import com.csarchvz.notesapp.data.constants.DetailNotePlaceHolder
 import com.csarchvz.notesapp.data.entities.NoteEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -44,30 +44,28 @@ fun EditNoteScreen(
     navController: NavController,
     noteId: Int
 ) {
-
     val scope = rememberCoroutineScope()
-    val note = remember {
-        mutableStateOf(DetailNotePlaceHolder.noteDetailPlaceHolder)
-    }
-    val title = note.value.title
-    val currentNote = remember { mutableStateOf(note.value.body) }
-    val currentTitle = remember { mutableStateOf(note.value.title) }
-    val saveButtonState = remember { mutableStateOf(false) }
+    val note = remember { mutableStateOf(DetailNotePlaceHolder.noteDetailPlaceHolder) }
 
+    // This will trigger recomposition when note.value changes, updating the UI accordingly
+    val (currentTitle, setCurrentTitle) = remember { mutableStateOf(note.value.title) }
+    val (currentNote, setCurrentNote) = remember { mutableStateOf(note.value.body) }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = noteId) {
         scope.launch(Dispatchers.IO) {
-            note.value = viewModel.getNote(noteId) ?: DetailNotePlaceHolder.noteDetailPlaceHolder
-            currentTitle.value = note.value.title
-            currentNote.value = note.value.body
-
+            val loadedNote = viewModel.getNote(noteId)
+            if (loadedNote != null) {
+                note.value = loadedNote
+                setCurrentTitle(loadedNote.title)
+                setCurrentNote(loadedNote.body)
+            }
         }
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Edit note: $title") },
+                title = { Text(text = "Edit note") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
@@ -80,78 +78,70 @@ fun EditNoteScreen(
         },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-
             Row(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
                 ExtendedFloatingActionButton(
-                    modifier = Modifier.padding(10.dp, 0.dp),
-                    icon = { Icon(Icons.Filled.Clear, "") },
+                    icon = { Icon(Icons.Filled.Clear, contentDescription = "Clear note") },
                     text = { Text("Cancel") },
-                    onClick = {
-                        navController.popBackStack()
-                    }
+                    onClick = { navController.popBackStack() }
                 )
-                Spacer(
-                    modifier = Modifier.height(16.dp)
-                )
+                Spacer(modifier = Modifier.width(16.dp))
                 ExtendedFloatingActionButton(
-                    icon = { Icon(Icons.Filled.Check, "Save note") },
+                    icon = { Icon(Icons.Filled.Check, contentDescription = "Save note") },
                     text = { Text("Save") },
                     onClick = {
                         viewModel.updateNote(
                             NoteEntity(
                                 id = noteId,
-                                title = currentTitle.value,
-                                body = currentNote.value
+                                title = currentTitle,
+                                body = currentNote
                             )
                         )
                         navController.popBackStack()
                     }
                 )
             }
-        },
-        content = { innerPadding ->
-            Column(
-                Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize()
-            ) {
-                Text(text = "Title note")
-                TextField(
-                    value = currentTitle.value,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        cursorColor = Color.Black,
-                        focusedLabelColor = Color.Black,
-                    ),
-                    onValueChange = { value ->
-                        currentTitle.value = value
-                        saveButtonState.value =
-                            currentTitle.value != "" && currentNote.value != ""
-                    },
-                    label = { Text(text = "Title") }
-                )
-                Spacer(modifier = Modifier.padding(12.dp))
-                Text(text = "Body note")
-
-                TextField(
-                    value = currentNote.value,
-                    colors = TextFieldDefaults.colors(
-                        cursorColor = Color.Black,
-                        focusedLabelColor = Color.Black,
-                    ),
-                    modifier = Modifier
-                        .fillMaxHeight(0.6f)
-                        .fillMaxWidth(),
-                    onValueChange = { value ->
-                        currentNote.value = value
-                        saveButtonState.value =
-                            currentTitle.value != "" && currentNote.value != ""
-                    },
-                    label = { Text(text = "Body") }
-                )
-            }
         }
-    )
+    ) { innerPadding ->
+        Column(
+            Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .padding(10.dp)
+        ) {
+            Text(text = "Title of the note")
+            OutlinedTextField(
+                value = currentTitle,
+                onValueChange = setCurrentTitle,
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    cursorColor = Color.Black,
+                    focusedBorderColor = Color.Black, // Color del borde cuando está enfocado
+                    unfocusedBorderColor = Color.Gray, // Color del borde cuando no está enfocado
+                    containerColor = Color(0xFFF2F2F2) // Gris muy claro para el fondo
+                ),
+                label = { Text(text = "Title") }
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(text = "Content of the note")
+            OutlinedTextField(
+                value = currentNote,
+                onValueChange = setCurrentNote,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    cursorColor = Color.Black,
+                    focusedBorderColor = Color.Black,
+                    unfocusedBorderColor = Color.Gray,
+                    containerColor = Color(0xFFF2F2F2)
+                ),
+                label = { Text(text = "Body") }
+            )
+        }
+    }
 }

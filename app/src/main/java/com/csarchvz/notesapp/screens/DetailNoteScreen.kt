@@ -19,6 +19,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,17 +38,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.csarchvz.notesapp.data.constants.NavigationRoutes
 import com.csarchvz.notesapp.data.entities.NoteEntity
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavController) {
     val scope = rememberCoroutineScope()
-    val note = remember {
-        mutableStateOf(DetailNotePlaceHolder.noteDetailPlaceHolder)
-    }
+    val note = remember { mutableStateOf(DetailNotePlaceHolder.noteDetailPlaceHolder) }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = noteId) {
         scope.launch(Dispatchers.IO) {
             note.value = viewModel.getNote(noteId) ?: DetailNotePlaceHolder.noteDetailPlaceHolder
         }
@@ -56,13 +57,23 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = note.value.title) },
+                title = {
+                    Text(
+                        text = note.value.title,
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* Handle Edit Action */ }) {
+                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit")
+                    }
+                    IconButton(onClick = { /* Handle Delete Action */ }) {
+                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete")
                     }
                 }
             )
@@ -104,9 +115,21 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
         },
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            Text(text = note.value.title)
-            Text(text = note.value.body)
-            Text(text = note.value.dateUpdated.toString())
+            Text(
+                text = note.value.title,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+            Text(
+                text = note.value.body,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+            Text(
+                text = "Last updated: ${note.value.dateUpdated}",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
         }
     }
 }

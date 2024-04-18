@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -45,7 +47,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.csarchvz.notesapp.data.constants.NavigationRoutes
@@ -122,39 +126,30 @@ fun FloatingAddButton(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardExample(item: NoteEntity, navController: NavController) {
-    val noteId: Int? = item.id ?: 0
+    val noteId: Int = item.id ?: 0
     OutlinedCard(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-        onClick = {
-            navController.navigate(NavigationRoutes.noteDetailNavigation(noteId ?: 0))
-        },
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        onClick = { navController.navigate(NavigationRoutes.noteDetailNavigation(noteId)) },
         border = BorderStroke(1.dp, Color.Black),
         modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
+            .padding(8.dp) // Add padding around the card
+            .fillMaxWidth() // Let the card fill the available width with some max limit
+            .heightIn(min = 100.dp, max = 150.dp) // Set a min and max height for the card
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .safeContentPadding()
-
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) { // Use a Column to structure the title and body
             Text(
                 text = item.title,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(16.dp),
-                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), // Use bolder font weight for title
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .safeContentPadding()
-        ) {
-            Text(text = item.body)
+            Spacer(modifier = Modifier.height(4.dp)) // Add space between the title and body
+            Text(
+                text = item.body,
+                style = MaterialTheme.typography.bodySmall, // Use body typography for the body text
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }

@@ -18,7 +18,9 @@ class NoteViewModel : ViewModel() {
     fun insertNote(title: String, body: String) {
 
         val noteEntity = NoteEntity(title = title, body = body)
-
+        viewModelScope.launch(Dispatchers.IO) {
+            NotesApplication.db.noteDao().insertNote(noteEntity)
+        }
     }
 
     fun insertNoteList() {
