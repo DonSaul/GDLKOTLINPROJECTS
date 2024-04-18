@@ -2,8 +2,11 @@ package com.example.task3.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,42 +54,32 @@ import com.example.task3.viewmodels.NoteViewModel
 @Composable
 fun MainScreen(navController: NavController, noteViewModel: NoteViewModel) {
     val notes = noteViewModel.notes
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "My notes",
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 24.sp
-                    )
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Person,
-                            contentDescription = "Profile icon"
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Menu icon"
-                        )
-                    }
-                }
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(title = {
+            Text(
+                text = "My notes", fontWeight = FontWeight.ExtraBold, fontSize = 24.sp
             )
-
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate("AddNoteScreen")
-            }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
+        }, actions = {
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Filled.Person, contentDescription = "Profile icon"
+                )
             }
+        }, navigationIcon = {
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Filled.Menu, contentDescription = "Menu icon"
+                )
+            }
+        })
+
+    }, floatingActionButton = {
+        FloatingActionButton(onClick = {
+            navController.navigate("AddNoteScreen")
+        }) {
+            Icon(Icons.Default.Add, contentDescription = "Add")
         }
+    }
 
     ) { pad ->
         Column(
@@ -98,20 +92,38 @@ fun MainScreen(navController: NavController, noteViewModel: NoteViewModel) {
         ) {
 
             if (notes.isEmpty()) {
-                Image(
-                    painter = painterResource(id = R.drawable.notes2),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .width(360.dp)
-                        .height(360.dp)
-                )
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "What's on your mind?",
+                        fontWeight = FontWeight.Light,
+                        fontStyle = FontStyle.Italic,
+                        fontSize = 32.sp,
+                        fontFamily = FontFamily.Cursive
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.notes2),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .width(360.dp)
+                            .height(360.dp)
+                    )
+                    Text(
+                        text = "Add some notes to get started",
+                        fontWeight = FontWeight.Light,
+                        fontStyle = FontStyle.Italic
+                    )
+                }
+            } else {
+
                 Text(
-                    text = "Add some notes to get started",
-                    fontWeight = FontWeight.Light,
+                    text = "${notes.size} notes",
+                    color = Color(0xFFCCC2DC),
                     fontStyle = FontStyle.Italic
                 )
-            } else {
-                Text(text = "${notes.size} notes", color = Color(0xFFCCC2DC), fontStyle = FontStyle.Italic)
                 Spacer(modifier = Modifier.size(16.dp))
                 LazyColumn {
                     items(notes) { item ->
@@ -120,10 +132,10 @@ fun MainScreen(navController: NavController, noteViewModel: NoteViewModel) {
                             content = item.content,
                             description = item.description,
                             date = noteViewModel.formatDate(item.createdAt)
-                        ) {
-                        }
+                        ) {}
                     }
                 }
+
             }
         }
     }
