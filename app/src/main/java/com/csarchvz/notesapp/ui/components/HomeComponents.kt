@@ -93,20 +93,12 @@ fun SearchBarComponent() {
             },
             modifier = Modifier
                 .weight(1f)
-                .height(IntrinsicSize.Min), // Ajusta el tamaño automáticamente
+                .height(IntrinsicSize.Min)
+                .fillMaxWidth(), // Ajusta el tamaño automáticamente
             shape = shape
         )
 
-        // Espacio entre TextField y botón de menú
-        Spacer(modifier = Modifier.width(8.dp))
 
-        // Botón con icono de menú de tres puntos
-        Button(
-            onClick = { /* ... */ },
-            shape = shape
-        ) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "More")
-        }
     }
 
     Divider()
@@ -150,6 +142,18 @@ fun CardExample(item: NoteEntity, navController: NavController) {
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+
+        }
+        Row {
+            Text(
+                text = "Categoría: ",
+                style = MaterialTheme.typography.titleSmall.copy(
+                    color = Color.Red
+                ), // Use bolder font weight for title
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(text = item.list)
         }
     }
 }

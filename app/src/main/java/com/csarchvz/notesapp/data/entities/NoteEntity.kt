@@ -14,9 +14,12 @@ data class NoteEntity(
     @ColumnInfo(name = "title")
     val title: String,
 
-    @ColumnInfo(name="body")
+    @ColumnInfo(name = "body")
     val body: String,
 
-    @ColumnInfo(name="dateUpdated")
+    @ColumnInfo(name = "list", defaultValue = "none")
+    val list: String,
+
+    @ColumnInfo(name = "dateUpdated")
     val dateUpdated: Date = Date.from(Instant.now())
 )

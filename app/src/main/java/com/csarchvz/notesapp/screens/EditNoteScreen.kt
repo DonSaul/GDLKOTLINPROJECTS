@@ -98,7 +98,8 @@ fun EditNoteScreen(
                             NoteEntity(
                                 id = noteId,
                                 title = currentTitle,
-                                body = currentNote
+                                body = currentNote,
+                                list = "none"
                             )
                         )
                         navController.popBackStack()

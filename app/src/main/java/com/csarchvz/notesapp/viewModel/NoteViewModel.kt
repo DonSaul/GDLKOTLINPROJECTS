@@ -17,7 +17,7 @@ class NoteViewModel : ViewModel() {
 
     fun insertNote(title: String, body: String) {
 
-        val noteEntity = NoteEntity(title = title, body = body)
+        val noteEntity = NoteEntity(title = title, body = body, list = "none")
         viewModelScope.launch(Dispatchers.IO) {
             NotesApplication.db.noteDao().insertNote(noteEntity)
         }
@@ -25,9 +25,9 @@ class NoteViewModel : ViewModel() {
 
     fun insertNoteList() {
         val notes = listOf(
-            NoteEntity(title = "Uno", body = "UnoBody"),
-            NoteEntity(title = "Dos", body = "DosBody"),
-            NoteEntity(title = "Tres", body = "TresBody"),
+            NoteEntity(title = "Uno", body = "UnoBody", list = "none"),
+            NoteEntity(title = "Dos", body = "DosBody", list = "none"),
+            NoteEntity(title = "Tres", body = "TresBody", list = "none"),
         )
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -57,8 +57,7 @@ class NoteViewModel : ViewModel() {
     fun filterNotes(filterText: String): LiveData<List<NoteEntity>> {
         val filteredNotes = notesList.value?.filter { note ->
             note.title.contains(filterText, ignoreCase = true) || note.body.contains(
-                filterText,
-                ignoreCase = true
+                filterText, ignoreCase = true
             )
         }
         return MutableLiveData(filteredNotes)

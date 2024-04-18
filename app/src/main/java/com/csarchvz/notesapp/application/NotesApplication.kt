@@ -15,7 +15,7 @@ class NotesApplication : Application() {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
-            "database-user"
+            "database-notes"
         ).build()
     }
 }
