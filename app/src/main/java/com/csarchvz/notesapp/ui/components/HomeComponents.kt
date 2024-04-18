@@ -122,7 +122,6 @@ fun FloatingAddButton(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardExample(item: NoteEntity, navController: NavController) {
-    val showDialog = remember { mutableStateOf(false) }
     val noteId: Int? = item.id ?: 0
     OutlinedCard(
         colors = CardDefaults.cardColors(
@@ -141,7 +140,6 @@ fun CardExample(item: NoteEntity, navController: NavController) {
                 .safeContentPadding()
 
         ) {
-            // Contenido principal de la Card
             Text(
                 text = item.title,
                 modifier = Modifier
@@ -149,19 +147,6 @@ fun CardExample(item: NoteEntity, navController: NavController) {
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
             )
-
-            // Icono en la parte superior derecha
-            //IconButton(
-            //  onClick = { showDialog.value = true },
-            //modifier = Modifier.align(Alignment.TopEnd)
-            //) {
-            //  Icon(
-            //    imageVector = Icons.Default.MoreVert, // Icono de propiedades
-            //  contentDescription = "Más opciones"
-            //)
-            //}
-
-            // Verificamos si el diálogo debe ser mostrado
         }
 
         Box(

@@ -50,7 +50,6 @@ import java.util.Locale
 import com.csarchvz.notesapp.viewModel.NoteViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
     val noteList by viewModel.notesList.observeAsState();
@@ -59,7 +58,7 @@ fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
     }
 
     Scaffold(
-        floatingActionButtonPosition = FabPosition.End, // Posición del botón flotante
+        floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingAddButton(navController)
         },
@@ -77,7 +76,7 @@ fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
                     modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     content = {
-                        itemsIndexed(it) { index: Int, item: NoteEntity ->
+                        itemsIndexed(it) { _: Int, item: NoteEntity ->
                             CardExample(item, navController)
 
                         }
@@ -88,45 +87,6 @@ fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
                 textAlign = TextAlign.Center,
                 text = "No items yet",
                 fontSize = 16.sp
-            )
-
-        }
-    }
-
-
-}
-
-@Composable
-fun TodoItem(item: NoteEntity, onDelete: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.primary)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = SimpleDateFormat("HH:mm:aa, dd/mm", Locale.ENGLISH).format(item.dateUpdated),
-                fontSize = 12.sp,
-                color = Color.LightGray
-            )
-            Text(
-                text = item.title,
-                fontSize = 20.sp,
-                color = Color.White
-            )
-        }
-        IconButton(onClick = onDelete) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Delete",
-                tint = Color.White
             )
         }
     }

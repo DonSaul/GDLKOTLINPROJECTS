@@ -20,26 +20,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.csarchvz.notesapp.ui.components.GenericAppBar
 import com.csarchvz.notesapp.viewModel.NoteViewModel
-
-
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import com.csarchvz.notesapp.data.constants.DetailNotePlaceHolder
 import com.csarchvz.notesapp.data.entities.NoteEntity
 import kotlinx.coroutines.Dispatchers
@@ -63,8 +53,6 @@ fun EditNoteScreen(
     val currentNote = remember { mutableStateOf(note.value.body) }
     val currentTitle = remember { mutableStateOf(note.value.title) }
     val saveButtonState = remember { mutableStateOf(false) }
-    val isFabExpanded =
-        remember { mutableStateOf(false) } // Estado para manejar la expansión de los FABs
 
 
     LaunchedEffect(key1 = true) {
@@ -93,10 +81,11 @@ fun EditNoteScreen(
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
 
-            Column(
+            Row(
                 modifier = Modifier.padding(8.dp)
             ) {
                 ExtendedFloatingActionButton(
+                    modifier = Modifier.padding(10.dp, 0.dp),
                     icon = { Icon(Icons.Filled.Clear, "") },
                     text = { Text("Cancel") },
                     onClick = {
@@ -107,7 +96,7 @@ fun EditNoteScreen(
                     modifier = Modifier.height(16.dp)
                 )
                 ExtendedFloatingActionButton(
-                    icon = { Icon(Icons.Filled.Check, "") },
+                    icon = { Icon(Icons.Filled.Check, "Save note") },
                     text = { Text("Save") },
                     onClick = {
                         viewModel.updateNote(

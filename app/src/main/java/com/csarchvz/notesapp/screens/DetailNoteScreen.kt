@@ -12,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -70,13 +72,11 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
 
             Row(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-
+                    .padding(16.dp)
             ) {
                 ExtendedFloatingActionButton(
-
-                    icon = { Icon(Icons.Filled.Clear, "") },
+                    modifier = Modifier.padding(10.dp, 0.dp),
+                    icon = { Icon(Icons.Filled.Delete, "Delete note") },
                     text = { Text("Delete") },
                     onClick = {
                         viewModel.deleteNote(
@@ -86,7 +86,6 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                                 body = note.value.body
                             )
                         )
-                        //navController.navigate(NavigationRoutes.NAVIGATION_HOME)
                         navController.popBackStack()
                     }
                 )
@@ -94,7 +93,7 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                     modifier = Modifier.height(16.dp)
                 )
                 ExtendedFloatingActionButton(
-                    icon = { Icon(Icons.Filled.Check, "") },
+                    icon = { Icon(Icons.Filled.Edit, "Edit note") },
                     text = { Text("Edit") },
                     onClick = {
 
