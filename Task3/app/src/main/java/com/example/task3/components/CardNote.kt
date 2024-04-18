@@ -32,14 +32,15 @@ import com.example.task3.R
 
 
 /**
- *  Composable for a Card, to represent a note and its content (title,
- *  content, description and date).
+ *  Composable for a Card, to represent a note and its content ([title],
+ *  [content], [description] and [date]).
  *
  *  @param[title] a String.
  *  @param[content] a String.
  *  @param[description] a String.
  *  @param[date] a String.
- *  @param[onClick] a function.
+ *  @param[onClick] a function to be called when implemented for possible future
+ *                  features
  * */
 @Composable
 fun CardNote(

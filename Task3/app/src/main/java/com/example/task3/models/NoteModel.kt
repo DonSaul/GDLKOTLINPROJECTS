@@ -9,7 +9,7 @@ import java.util.Date
  *  @property title the title of this card.
  *  @property description the description of this card.
  *  @property content the content of this card.
- *  @property createdAt the creation data of this card.
+ *  @property createdAt the creation date of this card.
  * */
 data class NoteModel(
     val title:String = "",

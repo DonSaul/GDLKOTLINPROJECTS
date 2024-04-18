@@ -19,7 +19,7 @@ import com.example.task3.components.LottieAsset
 import kotlinx.coroutines.delay
 
 /**
- *  Composable that represent the splash screen for this app.
+ *  Composable that represents the splash screen for this app.
  *  It renders an animation for 2.5 seconds and then navigates to the main screen.
  *
  *  @param[navController] a NavController instance for managing navigation between screens

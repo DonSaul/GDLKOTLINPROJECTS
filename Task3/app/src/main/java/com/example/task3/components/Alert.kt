@@ -29,15 +29,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
- *  Composable for an alert, to display details of a Note(its title,
- *  description and content).
+ *  Composable for an alert, to display details of a Note(its [title],
+ *  [description] and [content])
  *
  *  @param[title] a String.
  *  @param[description] a String.
  *  @param[content] a String.
- *  @param[confirmText] a String.
- *  @param[onConfirmClick] a function.
- *  @param[onDismissClick] a function.
+ *  @param[confirmText] a String for the "Confirm" button
+ *  @param[onConfirmClick] a function for possible future implementations
+ *  @param[onDismissClick] a function to be called to close the Alert.
  * */
 @Composable
 fun Alert(

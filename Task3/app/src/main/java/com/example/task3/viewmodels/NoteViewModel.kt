@@ -22,10 +22,10 @@ class NoteViewModel:ViewModel(){
     var state by mutableStateOf(NoteModel())
 
     /**
-     *  Updates the [field] of the note to be added according to the input [value]
+     *  Updates the [field] of the note to be added according to the input [value].
      *
-     *  @param[field] a String
-     *  @param[value] a String
+     *  @param[field] a String.
+     *  @param[value] a String.
      *  @return Unit
      * */
     fun onValueChange(field:String, value:String){
@@ -49,9 +49,9 @@ class NoteViewModel:ViewModel(){
     }
 
     /**
-     *  Adds a note to the current state
+     *  Adds a note to the current state.
      *
-     *  @return Unit
+     *  @return Unit.
      * */
     fun addNote(){
 
@@ -67,10 +67,10 @@ class NoteViewModel:ViewModel(){
 
     /**
      *  Formats a Date object [currentDate] and returns its String representation
-     *  in format "dd/MM/yyyy"
+     *  in format "dd/MM/yyyy".
      *
-     *  @param[currentDate] a Date
-     *  @return String
+     *  @param[currentDate] a Date.
+     *  @return String.
      * */
     fun formatDate(currentDate: Date): String{
         val res = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -79,9 +79,9 @@ class NoteViewModel:ViewModel(){
 
 
     /**
-     *  Resets the state of the note to be added, cleaning all text inputs
+     *  Resets the state of the note to be added, cleaning all text inputs.
      *
-     *  @return Unit
+     *  @return Unit.
      * */
     fun clearState(){
         state = state.copy(
