@@ -9,12 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import com.example.notepad_josue.data.Note
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -23,16 +28,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.notepad_josue.Screens.Screens
 
+//Composable to create item/card for the saved notes
+//This also have navigation functions
 @Composable
 fun NOteListItem(ControlNav: NavHostController,note: Note){
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
 
     ) {
         Row(
-            Modifier.clickable { ControlNav.navigate(Screens.NoteScreen.withArgs(note.id))  }.padding(10.dp),
+            Modifier
+                .clickable { ControlNav.navigate(Screens.NoteScreen.withArgs(note.id)) }
+                .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
 
         ) {
