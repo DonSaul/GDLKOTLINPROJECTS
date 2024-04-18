@@ -68,14 +68,6 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
-                actions = {
-                    IconButton(onClick = { /* Handle Edit Action */ }) {
-                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit")
-                    }
-                    IconButton(onClick = { /* Handle Delete Action */ }) {
-                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete")
-                    }
-                }
             )
         },
         floatingActionButtonPosition = FabPosition.End,
