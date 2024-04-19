@@ -57,7 +57,7 @@ fun EditNoteScreen(
                     )
                     navController.popBackStack()
                 },
-                saveEnabled = false
+                saveEnabled = currentTitle.isNotEmpty() && currentNote.isNotEmpty()
             )
         },
         topBar = {

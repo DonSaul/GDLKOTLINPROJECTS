@@ -66,11 +66,10 @@ fun NoteActionButtons(
         ExtendedFloatingActionButton(
             icon = { Icon(Icons.Filled.Clear, contentDescription = "Cancel") },
             text = { Text("Cancel") },
-            onClick = onCancel
+            onClick = onCancel,
         )
         Spacer(modifier = Modifier.width(16.dp))
         ExtendedFloatingActionButton(
-
             containerColor = if (saveEnabled) Color.Green else Color.Gray,
             icon = { Icon(Icons.Filled.Check, contentDescription = "Save") },
             text = { Text("Save") },

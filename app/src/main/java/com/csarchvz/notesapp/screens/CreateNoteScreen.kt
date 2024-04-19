@@ -42,7 +42,8 @@ fun CreateNoteScreen(
                             snackbarHostState.showSnackbar("Complete both inputs")
                         }
                     }
-                }
+                },
+                saveEnabled = currentTitle.value != "" && currentNote.value != ""
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },

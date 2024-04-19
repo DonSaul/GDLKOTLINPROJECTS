@@ -75,6 +75,7 @@ fun FloatingAddButton(navController: NavController) {
     FloatingActionButton(
         onClick = { navController.navigate("CreateNoteScreen") },
         modifier = Modifier.size(56.dp),
+        containerColor = Color.White,
         shape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50))
     ) {
         Icon(Icons.Filled.Add, "Floating action button.")
