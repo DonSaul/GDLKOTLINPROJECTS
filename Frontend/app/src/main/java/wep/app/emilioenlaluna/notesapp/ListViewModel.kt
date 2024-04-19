@@ -1,17 +1,21 @@
+package wep.app.emilioenlaluna.notesapp
+
+import NoteService
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import wep.app.emilioenlaluna.notesapp.ListScreenState
-import wep.app.emilioenlaluna.notesapp.Note
-import wep.app.emilioenlaluna.notesapp.NoteDto
 
 class ListViewModel(
     private val noteService: NoteService
 ) : ViewModel() {
     var state by mutableStateOf(ListScreenState())
+        private set
+
+
+    var editNoteState by mutableStateOf(EditNoteState())
         private set
 
     init {
@@ -33,16 +37,41 @@ class ListViewModel(
         }
     }
 
-    fun changeTitle(title: String) {
-        state = state.copy(
-            title = title
-        )
+    fun editNote(noteId: Int) {
+        val note = state.notes.find { it.id == noteId }
+        if (note != null) {
+            editNoteState = EditNoteState(
+                noteId = noteId,
+                title = note.title,
+                content = note.content
+            )
+        }
     }
 
-    fun changeContent(content: String) {
-        state = state.copy(
-            content = content
+    fun changeEditTitle(title: String) {
+        editNoteState = editNoteState.copy(title = title)
+    }
+
+    fun changeEditContent(content: String) {
+        editNoteState = editNoteState.copy(content = content)
+    }
+
+    fun updateNote() {
+        val note = NoteDto(
+            editNoteState.title,
+            editNoteState.content
         )
+        viewModelScope.launch {
+            try {
+                if (editNoteState.noteId != null) {
+                    noteService.updateNote(note, editNoteState.noteId!!)
+                }
+            } catch (e: Exception) {
+                println(e)
+            }
+            getNotes()
+            editNoteState = EditNoteState()
+        }
     }
 
     fun deleteNote(note: Note) {
@@ -50,18 +79,10 @@ class ListViewModel(
             try {
                 noteService.deleteNote(note.id)
             } catch (e: Exception) {
-                println()
+                println(e)
             }
             getNotes()
         }
-    }
-
-    fun editNote(note: Note) {
-        state = state.copy(
-            title = note.title,
-            content = note.content,
-            noteId = note.id
-        )
     }
 
     fun createNote() {
@@ -88,5 +109,13 @@ class ListViewModel(
             content = "",
             noteId = null
         )
+    }
+
+    fun changeTitle(title: String) {
+        state = state.copy(title = title)
+    }
+
+    fun changeContent(content: String) {
+        state = state.copy(content = content)
     }
 }

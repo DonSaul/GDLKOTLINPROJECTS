@@ -1,16 +1,19 @@
 package wep.app.emilioenlaluna.notesapp
 
-import ListViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import wep.app.emilioenlaluna.notesapp.ui.screens.MainScreen
 import wep.app.emilioenlaluna.notesapp.ui.theme.NotesAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,15 +21,46 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NotesAppTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     val viewModel = ListViewModel(NoteService.instance)
-                    ListScreen(viewModel)
+                    AppNavHost(viewModel = viewModel)
                 }
             }
         }
     }
 }
 
+@Composable
+fun AppNavHost(viewModel: ListViewModel) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "main") {
+        composable("main") {
+            MainScreen(navController = navController, viewModel = viewModel)
+        }
+        composable("add") {
+            AddNoteScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(
+            "detail/{noteId}",
+            arguments = listOf(navArgument("noteId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val noteId = backStackEntry.arguments?.getInt("noteId")
+            if (noteId != null) {
+                DetailNoteScreen(navController = navController, noteId = noteId, viewModel = viewModel)
+            }
+        }
+        composable(
+            "edit/{noteId}",
+            arguments = listOf(navArgument("noteId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val noteId = backStackEntry.arguments?.getInt("noteId")
+            if (noteId != null) {
+                viewModel.editNote(noteId)
+                EditNoteScreen(navController = navController, viewModel = viewModel)
+            }
+        }
+    }
+}

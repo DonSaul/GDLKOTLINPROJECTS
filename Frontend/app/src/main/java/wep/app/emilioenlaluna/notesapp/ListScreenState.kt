@@ -6,3 +6,9 @@ data class ListScreenState(
     val content: String = "",
     val noteId: Int? = null
 )
+
+data class EditNoteState(
+    val noteId: Int? = null,
+    val title: String = "",
+    val content: String = ""
+)

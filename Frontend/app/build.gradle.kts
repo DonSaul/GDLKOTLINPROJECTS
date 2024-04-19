@@ -65,7 +65,9 @@ dependencies {
     // ViewModel and LiveData for MVVM architecture
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
     implementation ("androidx.lifecycle:lifecycle-livedata:2.3.1")
-
+    implementation("androidx.navigation:navigation-common-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
 
 
     testImplementation("junit:junit:4.13.2")
