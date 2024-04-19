@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -51,6 +53,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.csarchvz.notesapp.data.constants.NavigationRoutes
 import com.csarchvz.notesapp.data.entities.NoteEntity
@@ -68,16 +71,6 @@ fun TitleComponent(title: String) {
 }
 
 @Composable
-fun SearchBarComponent() {
-
-    var inputText by remember {
-        mutableStateOf("")
-    }
-
-
-}
-
-@Composable
 fun FloatingAddButton(navController: NavController) {
     FloatingActionButton(
         onClick = { navController.navigate("CreateNoteScreen") },
@@ -90,7 +83,7 @@ fun FloatingAddButton(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardExample(item: NoteEntity, navController: NavController) {
+fun NoteCard(item: NoteEntity, navController: NavController) {
     val noteId: Int = item.id ?: 0
     OutlinedCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -127,6 +120,45 @@ fun CardExample(item: NoteEntity, navController: NavController) {
                 overflow = TextOverflow.Ellipsis
             )
             Text(text = item.list)
+        }
+    }
+}
+
+
+@Composable
+fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
+    TextField(
+        value = query,
+        onValueChange = onQueryChanged,
+        placeholder = { Text("Search a note") },
+        leadingIcon = {
+            Icon(Icons.Default.Search, contentDescription = "Search")
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        shape = MaterialTheme.shapes.medium
+    )
+}
+
+@Composable
+fun NotesList(notes: List<NoteEntity>, navController: NavController) {
+    if (notes.isEmpty()) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            text = "No items yet",
+            fontSize = 16.sp
+        )
+    } else {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            itemsIndexed(notes) { _, note ->
+                NoteCard(note, navController)
+            }
         }
     }
 }
