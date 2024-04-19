@@ -49,7 +49,6 @@ class NoteViewModel : ViewModel() {
     fun updateNote(note: NoteEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             NotesApplication.db.noteDao().updateNote(note)
-            _currentNote.postValue(note)
         }
     }
     // En NoteViewModel
