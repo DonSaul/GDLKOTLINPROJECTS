@@ -131,8 +131,8 @@ fun NoteItem(note: Note, onClick:() -> Unit){
         backgroundColor = colorResource(id = R.color.notebox)
     ) {
         Column(modifier = Modifier.padding(16.dp)){
-            Text(text = note.title, fontWeight = FontWeight.ExtraBold )
-            Text(text = note.description)
+            Text(text = note.title, fontWeight = FontWeight.ExtraBold, color = colorResource(id = R.color.textBoxColor))
+            Text(text = note.description, color = colorResource(id = R.color.textBoxColor))
         }
     }
 }

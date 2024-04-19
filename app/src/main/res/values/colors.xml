@@ -12,4 +12,5 @@
     <color name="notebox">#9FA8DA</color>
     <color name="unfocused">#7986cb</color>
     <color name="backgroundSwipe">#3F51B5</color>
+    <color name="textBoxColor">#1A237E</color>
 </resources>
