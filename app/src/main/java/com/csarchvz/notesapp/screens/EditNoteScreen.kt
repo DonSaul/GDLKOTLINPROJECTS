@@ -47,7 +47,6 @@ fun EditNoteScreen(
     val scope = rememberCoroutineScope()
     val note = remember { mutableStateOf(DetailNotePlaceHolder.noteDetailPlaceHolder) }
 
-    // This will trigger recomposition when note.value changes, updating the UI accordingly
     val (currentTitle, setCurrentTitle) = remember { mutableStateOf(note.value.title) }
     val (currentNote, setCurrentNote) = remember { mutableStateOf(note.value.body) }
 
@@ -121,9 +120,9 @@ fun EditNoteScreen(
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     cursorColor = Color.Black,
-                    focusedBorderColor = Color.Black, // Color del borde cuando está enfocado
-                    unfocusedBorderColor = Color.Gray, // Color del borde cuando no está enfocado
-                    containerColor = Color(0xFFF2F2F2) // Gris muy claro para el fondo
+                    focusedBorderColor = Color.Black,
+                    unfocusedBorderColor = Color.Gray,
+                    containerColor = Color(0xFFF2F2F2)
                 ),
                 label = { Text(text = "Title") }
             )

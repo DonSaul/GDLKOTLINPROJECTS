@@ -31,16 +31,15 @@ fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize() // Cambiado de fillMaxHeight() a fillMaxSize()
+                .fillMaxSize()
                 .padding(8.dp)
         ) {
             TopApp()
             noteList?.let {
-                // La LazyColumn ya debería permitirte desplazarte a través de tus notas
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(vertical = 8.dp), // Añade padding en la parte superior e inferior
-                    verticalArrangement = Arrangement.spacedBy(10.dp) // Añad
+                    contentPadding = PaddingValues(vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     itemsIndexed(it) { _, item ->
                         CardExample(item, navController)

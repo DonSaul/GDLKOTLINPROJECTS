@@ -15,6 +15,17 @@ class NoteViewModel : ViewModel() {
 
     val notesList: LiveData<List<NoteEntity>> = NotesApplication.db.noteDao().getNotes()
 
+    private val _currentNote = MutableLiveData<NoteEntity?>()
+    val currentNote: LiveData<NoteEntity?> = _currentNote
+
+    fun loadNote(noteId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val note = NotesApplication.db.noteDao().getNoteById(noteId)
+            _currentNote.postValue(note)
+        }
+    }
+
+
     fun insertNote(title: String, body: String) {
 
         val noteEntity = NoteEntity(title = title, body = body, list = "none")
@@ -49,9 +60,9 @@ class NoteViewModel : ViewModel() {
     fun updateNote(note: NoteEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             NotesApplication.db.noteDao().updateNote(note)
+            _currentNote.postValue(note)
         }
     }
-
     // En NoteViewModel
 
     fun filterNotes(filterText: String): LiveData<List<NoteEntity>> {

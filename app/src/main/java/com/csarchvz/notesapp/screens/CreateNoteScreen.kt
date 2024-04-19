@@ -40,8 +40,6 @@ fun CreateNoteScreen(
     val currentNote = remember { mutableStateOf("") }
     val currentTitle = remember { mutableStateOf("") }
     val saveButtonState = remember { mutableStateOf(false) }
-    val isFabExpanded =
-        remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -99,9 +97,9 @@ fun CreateNoteScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         cursorColor = Color.Black,
-                        focusedBorderColor = Color.Black, // Color del borde cuando está enfocado
-                        unfocusedBorderColor = Color.Gray, // Color del borde cuando no está enfocado
-                        containerColor = Color(0xFFF2F2F2) // Gris muy claro para el fondo
+                        focusedBorderColor = Color.Black,
+                        unfocusedBorderColor = Color.Gray,
+                        containerColor = Color(0xFFF2F2F2)
                     ),
                     onValueChange = { value ->
                         currentTitle.value = value

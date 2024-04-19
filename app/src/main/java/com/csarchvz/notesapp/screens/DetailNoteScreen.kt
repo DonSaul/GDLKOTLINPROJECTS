@@ -28,10 +28,12 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
     val note = remember { mutableStateOf(DetailNotePlaceHolder.noteDetailPlaceHolder) }
     val showListDialog = remember { mutableStateOf(false) }
     val selectedOption = remember { mutableStateOf("") }
+    val showDeleteConfirmDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = noteId) {
         scope.launch(Dispatchers.IO) {
             note.value = viewModel.getNote(noteId) ?: DetailNotePlaceHolder.noteDetailPlaceHolder
+            selectedOption.value = note.value.list
         }
     }
 
@@ -62,15 +64,8 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                     icon = { Icon(Icons.Filled.Delete, "Delete note") },
                     text = { Text("Delete") },
                     onClick = {
-                        viewModel.deleteNote(
-                            NoteEntity(
-                                id = noteId,
-                                title = note.value.title,
-                                body = note.value.body,
-                                list = "none"
-                            )
-                        )
-                        navController.popBackStack()
+                        showDeleteConfirmDialog.value = true
+
                     }
                 )
 
@@ -104,7 +99,9 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
-            Row {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
                 Text(
                     text = "Categoría: ",
                     style = MaterialTheme.typography.titleSmall.copy(
@@ -150,9 +147,17 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                 confirmButton = {
                     Button(
                         onClick = {
-                            // Aquí puedes manejar lo que sucede cuando se guarda la opción seleccionada.
-                            // Por ejemplo, guardar la selección en la base de datos.
                             showListDialog.value = false
+                            viewModel.updateNote(
+                                NoteEntity(
+                                    id = noteId,
+                                    title = note.value.title,
+                                    body = note.value.title,
+                                    list = selectedOption.value,
+                                )
+                            )
+
+                            navController.navigate(NavigationRoutes.NAVIGATION_HOME)
                         }
                     ) {
                         Text("Guardar")
@@ -163,6 +168,40 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                         onClick = {
                             showListDialog.value = false
                         }
+                    ) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
+        if (showDeleteConfirmDialog.value) {
+            AlertDialog(
+                onDismissRequest = { showDeleteConfirmDialog.value = false },
+                title = { Text(text = "Confirmar eliminación") },
+                text = { Text(text = "¿Estás seguro de que deseas eliminar esta nota?") },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            viewModel.deleteNote(
+                                NoteEntity(
+                                    id = noteId,
+                                    title = note.value.title,
+                                    body = note.value.body,
+                                    list = "none"
+                                )
+                            )
+                            showDeleteConfirmDialog.value = false
+                            navController.popBackStack()
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red) // Botón en rojo para confirmar la eliminación
+                    ) {
+                        Text("Eliminar", color = Color.White)
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = { showDeleteConfirmDialog.value = false }
                     ) {
                         Text("Cancelar")
                     }

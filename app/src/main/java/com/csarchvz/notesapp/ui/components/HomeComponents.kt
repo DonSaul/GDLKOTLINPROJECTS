@@ -60,7 +60,7 @@ fun TitleComponent(title: String) {
     Column {
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineLarge, // Asume un estilo similar al de un encabezado
+            style = MaterialTheme.typography.headlineLarge, 
             modifier = Modifier.padding(16.dp)
         )
         Divider()
@@ -80,7 +80,6 @@ fun SearchBarComponent() {
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // TextField con icono de lupa
         TextField(
             value = inputText,
             onValueChange = { inputText = it },
@@ -94,7 +93,7 @@ fun SearchBarComponent() {
             modifier = Modifier
                 .weight(1f)
                 .height(IntrinsicSize.Min)
-                .fillMaxWidth(), // Ajusta el tamaño automáticamente
+                .fillMaxWidth(),
             shape = shape
         )
 
@@ -124,32 +123,32 @@ fun CardExample(item: NoteEntity, navController: NavController) {
         onClick = { navController.navigate(NavigationRoutes.noteDetailNavigation(noteId)) },
         border = BorderStroke(1.dp, Color.Black),
         modifier = Modifier
-            .padding(8.dp) // Add padding around the card
-            .fillMaxWidth() // Let the card fill the available width with some max limit
-            .heightIn(min = 100.dp, max = 150.dp) // Set a min and max height for the card
+            .padding(8.dp)
+            .fillMaxWidth()
+            .heightIn(min = 100.dp, max = 150.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) { // Use a Column to structure the title and body
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = item.title,
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), // Use bolder font weight for title
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(4.dp)) // Add space between the title and body
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = item.body,
-                style = MaterialTheme.typography.bodySmall, // Use body typography for the body text
+                style = MaterialTheme.typography.bodySmall,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
         }
-        Row {
+        Row(Modifier.padding(10.dp, 10.dp)) {
             Text(
                 text = "Categoría: ",
                 style = MaterialTheme.typography.titleSmall.copy(
                     color = Color.Red
-                ), // Use bolder font weight for title
+                ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
