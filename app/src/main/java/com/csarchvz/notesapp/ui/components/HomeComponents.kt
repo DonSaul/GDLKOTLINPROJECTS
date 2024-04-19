@@ -60,7 +60,7 @@ fun TitleComponent(title: String) {
     Column {
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineLarge, 
+            style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier.padding(16.dp)
         )
         Divider()
@@ -145,7 +145,7 @@ fun CardExample(item: NoteEntity, navController: NavController) {
         }
         Row(Modifier.padding(10.dp, 10.dp)) {
             Text(
-                text = "Categoría: ",
+                text = "List: ",
                 style = MaterialTheme.typography.titleSmall.copy(
                     color = Color.Red
                 ),

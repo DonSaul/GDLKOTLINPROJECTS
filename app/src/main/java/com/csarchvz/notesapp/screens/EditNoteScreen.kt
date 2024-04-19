@@ -90,6 +90,7 @@ fun EditNoteScreen(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 ExtendedFloatingActionButton(
+                    containerColor = Color.Green,
                     icon = { Icon(Icons.Filled.Check, contentDescription = "Save note") },
                     text = { Text("Save") },
                     onClick = {

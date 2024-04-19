@@ -61,16 +61,17 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
             ) {
                 ExtendedFloatingActionButton(
                     modifier = Modifier.padding(10.dp, 0.dp),
+                    containerColor = MaterialTheme.colorScheme.error,
                     icon = { Icon(Icons.Filled.Delete, "Delete note") },
                     text = { Text("Delete") },
                     onClick = {
                         showDeleteConfirmDialog.value = true
-
                     }
                 )
 
                 ExtendedFloatingActionButton(
                     modifier = Modifier.padding(10.dp, 0.dp),
+                    containerColor = MaterialTheme.colorScheme.secondary,
                     icon = { Icon(Icons.Filled.Edit, "Edit note") },
                     text = { Text("Edit") },
                     onClick = {
@@ -79,6 +80,8 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                 )
 
                 ExtendedFloatingActionButton(
+                    modifier = Modifier.padding(10.dp, 0.dp),
+                    containerColor = MaterialTheme.colorScheme.tertiary,
                     icon = { Icon(Icons.Filled.Edit, "Set note to a list") },
                     text = { Text("Set to list") },
                     onClick = {
@@ -103,7 +106,7 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Text(
-                    text = "Categoría: ",
+                    text = "List: ",
                     style = MaterialTheme.typography.titleSmall.copy(
                         color = Color.Red
                     ), // Use bolder font weight for title
