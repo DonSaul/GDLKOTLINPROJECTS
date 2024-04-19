@@ -51,7 +51,6 @@ class NoteViewModel : ViewModel() {
     }
 
     fun deleteNote(note: NoteEntity) {
-
         viewModelScope.launch(Dispatchers.IO) {
             NotesApplication.db.noteDao().deleteNote(note)
         }
