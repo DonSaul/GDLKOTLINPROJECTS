@@ -1,43 +1,23 @@
 package com.csarchvz.notesapp.screens
 
-import android.annotation.SuppressLint
-
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-
-
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.csarchvz.notesapp.viewModel.NoteViewModel
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+
 import com.csarchvz.notesapp.data.constants.DetailNotePlaceHolder
 import com.csarchvz.notesapp.data.entities.NoteEntity
+import com.csarchvz.notesapp.ui.components.NoteActionButtons
+import com.csarchvz.notesapp.ui.components.NoteInputFields
+import com.csarchvz.notesapp.viewModel.NoteViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun EditNoteScreen(
     viewModel: NoteViewModel,
@@ -62,86 +42,41 @@ fun EditNoteScreen(
     }
 
     Scaffold(
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            NoteActionButtons(
+                onCancel = { navController.popBackStack() },
+                onSave = {
+                    viewModel.updateNote(
+                        NoteEntity(
+                            id = noteId,
+                            title = currentTitle,
+                            body = currentNote,
+                            list = "none"
+                        )
+                    )
+                    navController.popBackStack()
+                },
+                saveEnabled = false
+            )
+        },
         topBar = {
             TopAppBar(
                 title = { Text(text = "Edit note") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
-        },
-        floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = {
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                ExtendedFloatingActionButton(
-                    icon = { Icon(Icons.Filled.Clear, contentDescription = "Clear note") },
-                    text = { Text("Cancel") },
-                    onClick = { navController.popBackStack() }
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                ExtendedFloatingActionButton(
-                    containerColor = Color.Green,
-                    icon = { Icon(Icons.Filled.Check, contentDescription = "Save note") },
-                    text = { Text("Save") },
-                    onClick = {
-                        viewModel.updateNote(
-                            NoteEntity(
-                                id = noteId,
-                                title = currentTitle,
-                                body = currentNote,
-                                list = "none"
-                            )
-                        )
-                        navController.popBackStack()
-                    }
-                )
-            }
         }
     ) { innerPadding ->
-        Column(
-            Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .padding(10.dp)
-        ) {
-            Text(text = "Title of the note")
-            OutlinedTextField(
-                value = currentTitle,
-                onValueChange = setCurrentTitle,
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    cursorColor = Color.Black,
-                    focusedBorderColor = Color.Black,
-                    unfocusedBorderColor = Color.Gray,
-                    containerColor = Color(0xFFF2F2F2)
-                ),
-                label = { Text(text = "Title") }
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(text = "Content of the note")
-            OutlinedTextField(
-                value = currentNote,
-                onValueChange = setCurrentNote,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    cursorColor = Color.Black,
-                    focusedBorderColor = Color.Black,
-                    unfocusedBorderColor = Color.Gray,
-                    containerColor = Color(0xFFF2F2F2)
-                ),
-                label = { Text(text = "Body") }
+        Column(modifier = Modifier.padding(innerPadding)) {
+            NoteInputFields(
+                title = currentTitle,
+                onTitleChange = setCurrentTitle,
+                noteBody = currentNote,
+                onNoteBodyChange = setCurrentNote
             )
         }
     }
