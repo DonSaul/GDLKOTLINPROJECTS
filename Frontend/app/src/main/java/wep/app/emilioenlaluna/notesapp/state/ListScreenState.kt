@@ -1,4 +1,6 @@
-package wep.app.emilioenlaluna.notesapp
+package wep.app.emilioenlaluna.notesapp.state
+
+import wep.app.emilioenlaluna.notesapp.model.Note
 
 data class ListScreenState(
     val notes: List<Note> = emptyList(),
@@ -7,8 +9,3 @@ data class ListScreenState(
     val noteId: Int? = null
 )
 
-data class EditNoteState(
-    val noteId: Int? = null,
-    val title: String = "",
-    val content: String = ""
-)

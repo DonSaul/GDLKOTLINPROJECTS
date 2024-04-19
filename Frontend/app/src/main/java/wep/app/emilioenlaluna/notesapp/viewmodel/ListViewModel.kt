@@ -1,12 +1,16 @@
-package wep.app.emilioenlaluna.notesapp
+package wep.app.emilioenlaluna.notesapp.viewmodel
 
-import NoteService
+import wep.app.emilioenlaluna.notesapp.service.NoteService
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import wep.app.emilioenlaluna.notesapp.model.Note
+import wep.app.emilioenlaluna.notesapp.model.NoteDto
+import wep.app.emilioenlaluna.notesapp.state.EditNoteState
+import wep.app.emilioenlaluna.notesapp.state.ListScreenState
 
 class ListViewModel(
     private val noteService: NoteService

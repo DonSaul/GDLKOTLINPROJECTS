@@ -1,4 +1,4 @@
-package wep.app.emilioenlaluna.notesapp
+package wep.app.emilioenlaluna.notesapp.model
 
 
 data class Note(
@@ -13,7 +13,3 @@ data class Note(
     val categoryId: Int?
 )
 
-data class NoteDto(
-    val title: String,
-    val content: String
-)
