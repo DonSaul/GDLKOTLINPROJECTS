@@ -100,7 +100,8 @@ fun NoteContent(modifier: Modifier = Modifier, note: NoteEntity) {
 fun ListSelectionDialog(
     selectedOption: String,
     onOptionSelected: (String) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -124,7 +125,7 @@ fun ListSelectionDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = { onOptionSelected(selectedOption) }) {
+            TextButton(onClick = { onConfirm() }) {
                 Text("OK")
             }
         },

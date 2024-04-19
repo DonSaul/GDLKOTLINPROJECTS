@@ -54,10 +54,20 @@ fun DetailNoteScreen(noteId: Int, viewModel: NoteViewModel, navController: NavCo
                 selectedOption = selectedOption.value,
                 onOptionSelected = { option ->
                     selectedOption.value = option
-                    viewModel.updateNote(noteState.value.copy(list = option))
-                    showListDialog.value = false
                 },
-                onDismiss = { showListDialog.value = false }
+                onDismiss = { showListDialog.value = false },
+                onConfirm = {
+                    viewModel.updateNote(
+                        NoteEntity(
+                            id = noteId,
+                            title = noteState.value.title,
+                            body = noteState.value.body,
+                            list = selectedOption.value,
+                        )
+                    )
+                    navController.navigate(NavigationRoutes.NAVIGATION_HOME)
+                    showListDialog.value = false
+                }
             )
         }
 
