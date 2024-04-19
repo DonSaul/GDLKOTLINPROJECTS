@@ -1,6 +1,7 @@
 package com.csarchvz.notesapp.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -72,15 +74,33 @@ fun TitleComponent(title: String) {
 
 @Composable
 fun FloatingAddButton(navController: NavController) {
-    FloatingActionButton(
-        onClick = { navController.navigate("CreateNoteScreen") },
-        modifier = Modifier.size(56.dp),
-        containerColor = Color.White,
-        shape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50))
+    val totalSize = 60.dp
+    val buttonSize = 56.dp
+    val padding =
+        (totalSize - buttonSize) / 2
+
+    Box(
+        modifier = Modifier
+            .size(totalSize)
+            .background(
+                color = Color.Gray,
+                shape = CircleShape
+            ),
+        contentAlignment = Alignment.Center
     ) {
-        Icon(Icons.Filled.Add, "Floating action button.")
+        FloatingActionButton(
+            onClick = { navController.navigate(NavigationRoutes.NAVIGATION_CREATE_NOTE) },
+            modifier = Modifier
+                .size(buttonSize)
+                .padding(padding),
+            containerColor = Color.White,
+            shape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50)) // Mantiene la forma y tamaño original del botón
+        ) {
+            Icon(Icons.Filled.Add, contentDescription = "Floating action button.")
+        }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
