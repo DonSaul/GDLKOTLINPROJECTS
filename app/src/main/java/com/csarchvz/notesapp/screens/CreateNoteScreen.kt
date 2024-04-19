@@ -86,7 +86,7 @@ fun CreateNoteScreen(
                             navController.popBackStack()
                         } else {
                             scope.launch {
-                                snackbarHostState.showSnackbar("Complete both inputs" )
+                                snackbarHostState.showSnackbar("Complete both inputs")
                             }
                         }
                     })
@@ -132,7 +132,6 @@ fun CreateNoteScreen(
                     },
                     label = { Text(text = "Body") })
             }
-            if (notificationState.value) {
-            }
+    
         })
 }

@@ -74,33 +74,7 @@ fun SearchBarComponent() {
         mutableStateOf("")
     }
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TextField(
-            value = inputText,
-            onValueChange = { inputText = it },
-            placeholder = { Text("Search a note") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search"
-                )
-            },
-            modifier = Modifier
-                .weight(1f)
-                .height(IntrinsicSize.Min)
-                .fillMaxWidth(),
-            shape = shape
-        )
 
-
-    }
-
-    Divider()
 }
 
 @Composable

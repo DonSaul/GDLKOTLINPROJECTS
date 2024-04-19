@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -25,6 +26,15 @@ fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
     val noteList by viewModel.notesList.observeAsState()
     var inputText by remember { mutableStateOf("") }
 
+    val filteredNoteList = noteList?.filter {
+        it.title.contains(inputText, ignoreCase = true) || it.body.contains(
+            inputText,
+            ignoreCase = true
+        ) || it.list.contains(
+            inputText,
+            ignoreCase = true
+        )
+    }
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = { FloatingAddButton(navController) },
@@ -35,7 +45,34 @@ fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
                 .padding(8.dp)
         ) {
             TopApp()
-            noteList?.let {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = inputText,
+                    onValueChange = { inputText = it },
+                    placeholder = { Text("Search a note") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search"
+                        )
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(IntrinsicSize.Min)
+                        .fillMaxWidth(),
+                    shape = TextFieldDefaults.shape
+                )
+
+
+            }
+
+            Divider()
+            filteredNoteList?.let {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(vertical = 8.dp),
@@ -59,6 +96,5 @@ fun HomeNotesScreen(viewModel: NoteViewModel, navController: NavController) {
 fun TopApp() {
     Column(modifier = Modifier.fillMaxWidth()) {
         TitleComponent(title = "My Notes")
-        SearchBarComponent()
     }
 }
